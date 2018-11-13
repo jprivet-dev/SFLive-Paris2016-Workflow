@@ -3,6 +3,11 @@ framework:
         article:
             type: workflow
             audit_trail: true
+            marking_store:
+                type: method
+                arguments:
+                    - marking
+                    - false
             supports:
                 - App\Entity\Article
             places:

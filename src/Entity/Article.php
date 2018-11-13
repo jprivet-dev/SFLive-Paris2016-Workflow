@@ -48,8 +48,9 @@ class Article
         return $this->marking;
     }
 
-    public function setMarking($marking)
+    public function setMarking($marking, $context)
     {
+        dump($context);
         $this->marking = $marking;
     }
 }

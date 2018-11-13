@@ -54,7 +54,7 @@ class ArticleController extends Controller
     {
         try {
             $this->get('workflow.article')
-                ->apply($article, $request->request->get('transition'));
+                ->apply($article, $request->request->get('transition'), ['date' => new \DateTime()]);
 
             $this->get('doctrine')->getManager()->flush();
         } catch (ExceptionInterface $e) {
