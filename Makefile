@@ -47,10 +47,18 @@ vendor: composer.lock ## Composer install
 	$(C) install
 .PHONY: vendor
 
-db:
-	$(SF) doctrine:database:create
+db: ## Update schema
 	$(SF) doctrine:schema:update --force
 .PHONY: db
+
+db_clean: ## Drop & Create DB
+	$(SF) doctrine:database:drop --if-exists --force
+	$(SF) doctrine:database:create --if-not-exists
+.PHONY: db_clean
+
+clean: kill ## Stop the project and remove generated files
+	rm -rf .env
+.PHONY: clean
 
 ##
 ## SYMFONY
@@ -101,10 +109,12 @@ phpbash: ## Open PHP Docker bash
 	$(EXEC_PHP) bash
 .PHONY: phpbash
 
-rm-containers: ## Remove all containers
+rm_containers: ## Remove all containers
 	docker rm -f $$(docker ps -a -q)
+.PHONY: rm_containers
 
-rm-images: ## Remove all images
+rm_images: ## Remove all images
 	docker rmi -f $$(docker images -q)
+.PHONY: rm_images
 
 
