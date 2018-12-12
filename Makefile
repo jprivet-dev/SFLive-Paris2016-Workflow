@@ -1,7 +1,11 @@
 DC = docker-compose
+
 EXEC_PHP = $(DC) exec php-fpm
+EXEC_POSTGRES = $(DC) exec postgres
+
 PHP = $(EXEC_PHP) php
 SF = $(PHP) bin/console
+
 C = $(EXEC_PHP) composer
 
 .DEFAULT_GOAL := help
@@ -108,6 +112,10 @@ kill: ## Forces running containers to stop and removes containers, networks, vol
 phpbash: ## Open PHP Docker bash
 	$(EXEC_PHP) bash
 .PHONY: phpbash
+
+postgresbash: ## Open POSTGRES Docker bash
+	$(EXEC_POSTGRES) bash
+.PHONY: postgresbash
 
 rm_containers: ## Remove all containers
 	docker rm -f $$(docker ps -a -q)
