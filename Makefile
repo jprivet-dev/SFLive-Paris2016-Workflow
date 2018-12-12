@@ -1,5 +1,5 @@
 DC = docker-compose
-EXEC_PHP = $(DC) exec -u dev php-fpm
+EXEC_PHP = $(DC) exec php-fpm
 PHP = $(EXEC_PHP) php
 SF = $(PHP) bin/console
 C = $(EXEC_PHP) composer
@@ -100,5 +100,11 @@ kill: ## Forces running containers to stop and removes containers, networks, vol
 phpbash: ## Open PHP Docker bash
 	$(EXEC_PHP) bash
 .PHONY: phpbash
+
+rm-containers: ## Remove all containers
+	docker rm -f $$(docker ps -a -q)
+
+rm-images: ## Remove all images
+	docker rmi -f $$(docker images -q)
 
 
