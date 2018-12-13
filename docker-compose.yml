@@ -15,7 +15,7 @@ services:
         - POSTGRES_PASSWORD=
         - POSTGRES_DB=demo_workflow
       ports:
-       - "5432:5432"
+       - "5432"
 
     webserver:
       image: nginx:alpine
@@ -25,7 +25,7 @@ services:
           - .:/application
           - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       ports:
-       - "1025:80"
+       - "80:80"
 
     php-fpm:
       build: .docker/php-fpm
