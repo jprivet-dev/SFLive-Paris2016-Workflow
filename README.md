@@ -31,6 +31,8 @@ Just clone the project and:
 - execute `composer install`
 - create database
 
+And then go to http://localhost
+
 More info:
 
     $ make
