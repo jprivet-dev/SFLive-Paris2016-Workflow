@@ -33,4 +33,6 @@ Just clone the project and:
 
 More info:
 
-    $ make help
+    $ make
+    # or 
+    $ make help 
