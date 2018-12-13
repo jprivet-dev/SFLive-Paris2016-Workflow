@@ -1,7 +1,7 @@
 DC = docker-compose
 
 EXEC_PHP = $(DC) exec php-fpm
-EXEC_POSTGRES = $(DC) exec postgres
+EXEC_POSTGRES = $(DC) exec postgres-9.lxc
 
 PHP = $(EXEC_PHP) php
 SF = $(PHP) bin/console
@@ -31,7 +31,7 @@ help:
 .env: .env.dist ## Check `.env` existence & copy `.env.dist` if `.env` not exists
 	@if [ -f .env ]; \
 	then\
-		echo -e '\033[1;41m/!\ The .env.dist file has changed. Please check your .env file (this message will not be displayed again).\033[0m';\
+		echo '\033[1;41m/!\ The .env.dist file has changed. Please check your .env file (this message will not be displayed again).\033[0m';\
 		touch .env;\
 		exit 1;\
 	else\
@@ -44,7 +44,7 @@ help:
 ## -------
 ##
 
-install: .env vendor db ## Install all the project
+install: .env start vendor db ## Install all the project
 .PHONY: install
 
 vendor: composer.lock ## Composer install
@@ -52,6 +52,7 @@ vendor: composer.lock ## Composer install
 .PHONY: vendor
 
 db: ## Update schema
+	@$(EXEC_PHP) php -r 'echo "Wait database... "; set_time_limit(15); require __DIR__."/vendor/autoload.php"; (new \Symfony\Component\Dotenv\Dotenv())->load(__DIR__."/.env"); $$db = parse_url(getenv("DATABASE_URL")); $$host = $$db["host"]; $$port = $$db["port"] ?? 5432; echo "(".$$host.":".$$port.")\n"; for(;;) { if(@fsockopen($$host, $$port)) { break; }}'
 	$(SF) doctrine:schema:update --force
 .PHONY: db
 
