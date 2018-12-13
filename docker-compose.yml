@@ -4,16 +4,18 @@
 version: "3.1"
 services:
 
-    postgres:
+    postgres-9.lxc:
       image: postgres:9.6-alpine
       container_name: workflow-postgres
       working_dir: /application
       volumes:
         - .:/application
       environment:
-        - POSTGRES_USER=root
-        - POSTGRES_PASSWORD=root
+        - POSTGRES_USER=ubuntu
+        - POSTGRES_PASSWORD=
         - POSTGRES_DB=demo_workflow
+      ports:
+       - "5432:5432"
 
     webserver:
       image: nginx:alpine
